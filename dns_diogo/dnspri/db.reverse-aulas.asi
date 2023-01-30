@@ -1,0 +1,18 @@
+;
+; BIND reverse data file for local loopback interface
+;
+$TTL	604800
+@	IN	SOA	ns1.aulas.asi. root.ns1.aulas.asi. (
+			      4		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+@			IN	NS	ns1.
+@			IN	NS	ns2.
+20			IN	PTR	ns1.aulas.asi.
+30			IN	PTR	ns2.aulas.asi.
+10.5.10.20		IN	PTR	erp.aulas.asi.
+10.5.10.20		IN	PTR	rh.aulas.asi.
+10.57.168.192		IN	PTR	containerSRV.aulas.asi.
