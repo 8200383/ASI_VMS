@@ -1,0 +1,60 @@
+Na Ex2 crie o grupo ALUNO (gid=601) e na Ex1 crie o grupo PROF (gid=602). Crie os seguintes
+utilizadores, atribua-lhes password e associe-os aos respetivos grupos:
+
+
+adicionar:
+
+- criar grupos (sudo groupadd "nome" -g "id")
+- verificar se o grupo ta criado (cat /etc/group)
+- criar os users (sudo useradd -m -g "groupName" "name")
+- definir passwords (sudo passwd "name")
+- verificar se os users tao criados (cat /etc/passwd)
+(- adicionar user ao group (sudo usermod -a -G "groupname" "user"))
+
+ssh:
+
+- (bash)
+- dar login com cada user e fazer (ssh-keygen -t rsa)
+- verificar (ls .ssh/)
+-adicionar ip de outra máquina ao ficheiro hosts (sudo nano /etc/hosts) (<ip> <nome da maquina>)
+-copiar chave ssh para os utilizadores (ssh-copy-id -i ~/.ssh/id_rsa.pub <nomedeutilizador>@<nomedamaquina>)
+
+contrab:
+pv
+contrab guru
+Na EX2 faça com que o programa copia.sh do utilizador joao seja executado todos os dias na contrab
+entre as 2:00 e as 3:30 e entre as 5:30 e as 6:30 com frequência de 10 minutos.
+
+- (MIN HOUR DOM MON DOW CMD)
+- (
+MIN     Minute field    0 to 59
+HOUR    Hour field      0 to 23
+DOM     Day of Month    1-31
+MON     Month field     1-12
+DOW     Day Of Week     0-6
+CMD     Command     Any command to be executed.
+)
+
+- log no user (neste caso joao)
+- (contrab -e) 
+- (00-59/10 2 * * * (bash) (Caminho para o script))
+- (00-30/10 3 * * * (bash) (Caminho para o script))
+- (30-59/10 5 * * * (bash) (Caminho para o script))
+- (00-30/10 6 * * * (bash) (Caminho para o script))
+- (crontab -l)
+
+lvm:
+- fazer as contas
+- verficar quantos discos fisicos tenho
+- criar particoes dos discos 
+(sudo parted "nome do disco" mkpart primary ext4 0% "quantidade necessaria"MB )
+(sudo f disk "nome do disco")
+(n)
+(p)
+()
+(+"numero de megabytes"M)
+(w)
+- criar discos fisicos (sudo pvcreate "nomes do discos fisicos")
+- dividilos pelos volumeGroup
+- criar os volumesGroups (sudo vgcreate "nome do volume group" "nomes dos discos fisicos")
+- criar os volumesLogicos (sudo -n "nome do v logico" -L "tamanho"M "nome do volumeGroup")

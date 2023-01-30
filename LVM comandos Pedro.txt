@@ -1,0 +1,70 @@
+#!bin/bash
+
+# Delete LVM
+#vgremove vgbin
+#vgremove vgdados
+#pvremove /dev/sdb
+#pvremove /dev/sdc
+#pvremove /dev/sdd
+
+# Show disks
+lsblk
+
+# Create partitions
+parted /dev/sdb mkpart primary ext4 0% 300MB
+parted /dev/sdc mkpart primary ext4 0% 200MB
+parted /dev/sdc mkpart primary ext4 0% 100MB
+parted /dev/sdd mkpart primary ext4 0% 300MB
+
+# Create physical volumes
+pvcreate /dev/sdb /dev/sdc1 /dev/sdc2 /dev/sdd
+
+# Create volume groups
+vgcreate vgbin /dev/sdb /dev/sdc1
+vgcreate vgdados /dev/sdc2 /dev/sdd
+
+# Shows volume groups
+vgs
+
+# Shows physical volumes 
+pvs
+
+# Create logical volumes
+lvcreate -n lv_bin -L 100M vgbin
+lvcreate -n lv_log -L 200M vgbin
+lvcreate -n lv_temp -L 100M vgbin
+lvcreate -n lv_data1 -L 400M vgdados
+
+# Show logical volumes
+lvs
+
+#Create file System
+mkfs.ext4 /dev/vgbin/lv_bin
+mkfs.ext4 /dev/vgbin/lv_log
+mkfs.ext4 /dev/vgbin/lv_tmp
+mkfs.ext4 /dev/vgdados/lv_data1
+
+# Create mountPoints
+mkdir /mnt/mysql
+mkdir /mnt/mysql/log
+mkdir /mnt/mysql/tmp
+mkdir /mnt/mysql/data
+
+mount /dev/vgbin/lv_bin /mnt/mysql
+mount /dev/vgbin/lv_log /mnt/mysql/log
+mount /dev/vgbin/lv_tmp /mnt/mysql/tmp
+mount /dev/vgdados/lv_data1 /mnt/mysql/data
+
+df -h
+
+/etc/fstab
+(/dev/vgbin/lv_bin /mnt/mysql ext4 defaults 1 1)
+(/dev/vgbin/lv_log /mnt/mysql/log ext4 defaults 1 1)
+(/dev/vgbin/lv_tmp /mnt/mysql/tmp ext4 defaults 1 1)
+(/dev/vgdados/lv_data1 /mnt/mysql/data ext4 defaults 1 1)
+------------------------------------------------------
+
+# Resize 
+vgextend -L +50 /dev/vgbin
+lvextend -L +50 /dev/vgbin/lv_log
+resize2fs /dev/vgbin/lv_log
