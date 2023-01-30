@@ -4,6 +4,7 @@
 [Apache](https://ubuntu.com/server/docs/web-servers-apache)
 
 [DNS](https://ubuntu.com/server/docs/service-domain-name-service-dns)
+[DNS DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-configure-bind-as-a-private-network-dns-server-on-ubuntu-20-04)
 
 [SSH](https://www.ssh.com/academy/ssh/copy-id#setting-up-public-key-authentication)
 
