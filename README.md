@@ -9,6 +9,8 @@
 
 [SSH](https://www.ssh.com/academy/ssh/copy-id#setting-up-public-key-authentication)
 
+[LVM](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/logical_volume_manager_administration/lvm_examples#vol_create_ex)
+
 ##### Verificar syntax do bind9
 ```
 sudo named-checkconf
