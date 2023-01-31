@@ -11,15 +11,4 @@
 
 [LVM Growing and Shrinking](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_and_managing_logical_volumes/modifying-the-size-of-a-logical-volume_configuring-and-managing-logical-volumes)
 
-##### Verificar syntax do bind9
-```
-sudo named-checkconf
-```
-
-##### Na resolução da parte de DNS, desativar o serviço `systemd`
-```sh
-sudo systemctl stop systemd-resolved
-```
-
-OR [Alternative Method](https://user-images.githubusercontent.com/66122667/215534677-7e9be64f-461f-489c-957a-df47dc1b48c6.png)
-
+[Ze Pedro ASI](https://github.com/ZePedroFernandes/ASI)
