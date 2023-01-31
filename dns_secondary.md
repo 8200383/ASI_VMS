@@ -12,6 +12,8 @@ Network: `192.168.56.0/24`
 
 ## Configure DNS clients
 ```sh
+vim /etc/resolv.conf
+
 nameserver 192.168.56.20 # For both NS1 and NS2
 search epnormal.asi
 ```
