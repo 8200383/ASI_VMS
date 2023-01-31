@@ -15,6 +15,13 @@ Network: `192.168.56.0/24`
 ## Warnings
 `named-checkconf`: Checks the syntax, It does not check the semantics of your cheat code!
 
+## Disable 
+```sh
+sudo vim /etc/systemd/resolved.conf
+DNSStubListener=no # Turn this off
+
+sudo systemctl restart systemd-resolved
+```
 ## Install Bind9
 ```sh
 apt-get install bind9
