@@ -9,6 +9,12 @@ Machine NS2: `192.168.56.30`
 
 Network: `192.168.56.0/24`
 
+## Configure DNS clients
+```sh
+nameserver 192.168.56.20 OR 192.168.56.30 Depending of NS1 or NS2
+search epnormal.asi
+```
+
 ## Register NS2 on NS1
 ```sh
 sudo vim /etc/bind/named.conf.options
@@ -17,6 +23,13 @@ acl "trusted" {
         192.168.56.20; # ns1
         192.168.56.30; # ns2
 };
+
+OR
+
+acl "trusted" {
+  192.168.56.0/24; # Any IP on the network
+};
+
 ```
 
 ## Validate your changes
@@ -31,6 +44,12 @@ sudo vim /etc/bind/named.conf.options
 acl "trusted" {
         192.168.56.20; # ns1
         192.168.56.30; # ns2
+};
+
+OR
+
+acl "trusted" {
+        192.168.56.0/24;
 };
 
 options {
@@ -56,9 +75,9 @@ sudo named-checkconf
 sudo vim /etc/bind/named.conf.local
 
 zone "epnormal.asi" {
-    type secondary;
-    file "/etc/bind/epnormal.asi.zone2";
-    primaries { 192.168.56.20; };  # ns1 private IP
+    type slave;
+    file "/var/cache/bind/epnormal.asi.zone";
+    masters { 192.168.56.20; };  # ns1 private IP
 };
 ```
 
@@ -68,3 +87,13 @@ sudo named-checkconf
 sudo systemctl restart bind9
 ```
 
+## Test your configs
+```sh
+# On NS2
+dig ns1.epnormal.asi
+dig ns2.epnormal.asi
+
+# On NS2
+dig ns1.epnormal.asi
+dig ns2.epnormal.asi
+```
