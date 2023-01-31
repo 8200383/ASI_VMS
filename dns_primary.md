@@ -10,6 +10,8 @@
 ## Specifications
 Domain: `epnormal.asi`
 
+Machine: `192.168.56.20`
+
 Network: `192.168.56.0/24`
 
 ## Warnings
