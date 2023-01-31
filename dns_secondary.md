@@ -12,7 +12,7 @@ Network: `192.168.56.0/24`
 
 ## Configure DNS clients
 ```sh
-nameserver 192.168.56.20 OR 192.168.56.30 Depending of NS1 or NS2
+nameserver 192.168.56.20 # For both NS1 and NS2
 search epnormal.asi
 ```
 
