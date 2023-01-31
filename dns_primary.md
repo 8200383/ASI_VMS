@@ -15,7 +15,7 @@ Network: `192.168.56.0/24`
 ## Warnings
 `named-checkconf`: Checks the syntax, It does not check the semantics of your cheat code!
 
-## Disable 
+## Do not disabled unless is your last resource 
 ```sh
 sudo vim /etc/systemd/resolved.conf
 DNSStubListener=no # Turn this off
@@ -74,17 +74,19 @@ cp /etc/bind/db.local /etc/bind/epnormal.asi.zone
 ;
 $TTL    604800
 @       IN      SOA     epnormal.asi. root.epnormal.asi. (
-                              2         ; Serial
+                              6         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                          604800 )       ; Negative Cache TTL
 ;
-@       IN      NS      epnormal.asi.
-@       IN      A       192.168.56.20
-
-impressora1     IN      A       192.168.56.30
-sap     IN      A       192.168.56.40
+; Define the default name server to ns1.epnormal.asi
+@       IN      NS      ns1.epnormal.asi.
+; Resolve ns1 to server IP Addr
+ns1     IN      A       192.168.56.20
+; Other domains to epnormal.asi
+impressora1     IN      A       192.168.56.21
+sap     IN      A       192.168.56.22
 crm     IN      CNAME   sap
 ```
 
@@ -93,19 +95,20 @@ Increment `; Serial` if you restart bind9
 
 ```sh
 sudo named-checkconf
+
+sudo named-checkzone epnormal.asi /etc/bind/epnormal.asi.zone 
+zone epnormal.asi/IN: loaded serial 6
+OK
+
 sudo systemctl restart bind9
-sudo systemctl status bind9 # Always check for errors
 ```
 
 ## Contact your own DNS
 ```sh
-> traceroute epnormal.asi
-traceroute to epnormal.asi (192.168.56.10), 30 hops max, 60 byte packets
-1  192.168.56.20 (192.168.56.20)  3049.383 ms !H  3049.076 ms !H  3049.018 ms !H
-
-> dig 192.168.56.20 epnormal.asi
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 31882
-
-> ping google.com # Check if you still can connect to google.com
+dig @192.168.56.20 epnormal.asi
+dig @192.168.56.20 ns1.epnormal.asi
+dig @192.168.56.20 impressora1.epnormal.asi
+dig @192.168.56.20 sap.epnormal.asi
+dig @192.168.56.20 crm.epnormal.asi
 ```
 
